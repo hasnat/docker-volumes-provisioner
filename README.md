@@ -6,11 +6,15 @@ An alpine based helper image to essentially make directory
 with appropriate owner and permissions to be used by other containers.
 This is achieved by [install](https://linux.die.net/man/1/install)
 
-Most images require data folders to be under certain permissions e.g.
+Most images require data folders to be under certain permissions,
+for mounted volumes directories have to be created and modified
+before container start.
+e.g.
 
-mysql data folder needs to be 1000:1000
-prometheus needs 65534:65534
-grafana5 needs 472:472 
+- [mysql](https://hub.docker.com/_/mysql) data folder needs to be 1000:1000
+- [prometheus](https://hub.docker.com/r/prom/prometheus) needs 65534:65534
+- [grafana](https://hub.docker.com/r/grafana/grafana) needs 472:472
+
 
 ### Config
 Pass config as env var `PROVISION_DIRECTORIES`
@@ -21,11 +25,9 @@ Can contain multiple directories separated by space and/or multiple configs sepa
 
 e.g.
 
-1000:1000:0755:/var/www/html
-
-1000:1000:0755:/var/www /var/www/html
-
-1000:1000:0755:/var/www /var/www/html;1001:1001:0755:/var/app /var/app/cache
+- `1000:1000:0755:/var/www/html`
+- `1000:1000:0755:/var/www /var/www/html`
+- `1000:1000:0755:/var/www /var/www/html;1001:1001:0755:/var/app /var/app/cache`
 
 #### Local Run example
 ```
