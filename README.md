@@ -47,7 +47,7 @@ services:
   volumes-provisioner:
     image: hasnat/volumes-provisioner
     environment:
-      PROVISION_DIRECTORIES: "472:472:0755:/var/data/prometheus/data"
+      PROVISION_DIRECTORIES: "65534:65534:0755:/var/data/prometheus/data"
     volumes:
       - "/var/data:/var/data"
     network_mode: none
