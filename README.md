@@ -49,7 +49,7 @@ services:
     environment:
       PROVISION_DIRECTORIES: "65534:65534:0755:/var/data/prometheus/data"
     volumes:
-      - "/var/data:/var/data"
+      - "./var/data:/var/data"
     network_mode: none
 
   prometheus:
@@ -59,7 +59,7 @@ services:
     depends_on:
       - volumes-provisioner
     volumes:
-      - "/var/data/prometheus/data:/prometheus/data"
+      - "./var/data/prometheus/data:/prometheus/data"
 
 ```
 
