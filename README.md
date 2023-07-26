@@ -4,7 +4,7 @@ hub.docker.com [hasnat/volumes-provisioner](https://hub.docker.com/r/hasnat/volu
 
 An alpine based helper image to essentially make directory
 with appropriate owner and permissions to be used by other containers.
-This is achieved by [install](https://linux.die.net/man/1/install)
+This is achieved by [sed](https://linux.die.net/man/1/sed) and [install](https://linux.die.net/man/1/install).
 
 Most images require data folders to be under certain permissions,
 for mounted volumes directories have to be created and modified
@@ -28,6 +28,35 @@ e.g.
 - `1000:1000:0755:/var/www/html`
 - `1000:1000:0755:/var/www /var/www/html`
 - `1000:1000:0755:/var/www /var/www/html;1001:1001:0755:/var/app /var/app/cache`
+
+### draw
+```
+        PROVISION_DIRECTORIES                                                                              
+                                                                                                           
+                                                                                                           
+                     sed                                                  -d, --directory                  
+                                                                          treat all arguments as           
+                                                                          directory names; create all      
+                                                                          components of the specified      
+                           ([0-9]+):([0-9]+):([0-9]+):([^:;]+);?          directories                      
+                                │       │       │         │  │                                             
+                                │       │       │         │  │            -o, --owner=OWNER                
+                                │       │       │         │  │            set ownership (super-user only)  
+                                └─────┐ └───┐   └─┐  ┌────┘  └────┐                                        
+                                      │     │     │  │            │       -g, --group=GROUP                
+                                      │     │     │  │            │       set group ownership, instead of  
+                                      │     │     │  │            │       process' current group           
+                                      ▼     ▼     ▼  ▼            ▼                                        
+                       install -d -o \1 -g \2 -m \3 \4 ; ls -dhn \4 ;     -m, --mode=MODE                  
+                                                                          set permission mode (as in       
+                                                                          chmod), instead of rwxr-xr-x     
+Examples                                                                                                   
+                                                                                                           
+PROVISION_DIRECTORIES: "1000:1000:0755:/var/www/html"                                                      
+PROVISION_DIRECTORIES: "1000:1000:0755:/var/www /var/www/html"                                             
+PROVISION_DIRECTORIES: "1000:1000:0755:/var/www /var/www/html;1000:1000:0755:/var/app /var/app/cache"      
+PROVISION_DIRECTORIES: "65534:65534:0755:/var/data/prometheus/data"
+```
 
 #### Local Run example
 ```
